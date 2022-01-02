@@ -37,7 +37,7 @@ contract ENSRegistryTest is DSTest {
         assertEq(registry.owner(0), address(this));
 
         hevm.prank(address(user));
-        hevm.expectRevert("Unauthorized.");
+        hevm.expectRevert(abi.encodeWithSignature("Unauthorized()"));
         registry.setOwner(0, address(this));
 
         assertEq(registry.owner(0), address(this));
@@ -57,7 +57,7 @@ contract ENSRegistryTest is DSTest {
         assertEq(registry.resolver(0), address(0));
 
         hevm.prank(address(user));
-        hevm.expectRevert("Unauthorized.");
+        hevm.expectRevert(abi.encodeWithSignature("Unauthorized()"));
         registry.setResolver(0, address(user));
 
         assertEq(registry.resolver(0), address(0));
@@ -75,7 +75,7 @@ contract ENSRegistryTest is DSTest {
         assertEq(registry.ttl(0), 0);
 
         hevm.prank(address(user));
-        hevm.expectRevert("Unauthorized.");
+        hevm.expectRevert(abi.encodeWithSignature("Unauthorized()"));
         registry.setTTL(0, 1);
 
         assertEq(registry.ttl(0), 0);
@@ -92,7 +92,7 @@ contract ENSRegistryTest is DSTest {
 
     function testNonOwnersCannotCreateSubnodes() public {
         hevm.prank(address(user));
-        hevm.expectRevert("Unauthorized.");
+        hevm.expectRevert(abi.encodeWithSignature("Unauthorized()"));
 
         registry.setSubnodeOwner(0, keccak256("eth"), address(user));
 

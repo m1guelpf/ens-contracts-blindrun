@@ -2,6 +2,8 @@
 pragma solidity ^0.8.10;
 
 contract ENSRegistry {
+    error Unauthorized();
+
     event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
     event Transfer(bytes32 indexed node, address owner);
     event NewResolver(bytes32 indexed node, address resolver);
@@ -37,7 +39,7 @@ contract ENSRegistry {
     function setOwner(bytes32 node, address owner) public {
         Record storage record = records[node];
 
-        require(msg.sender == record.owner, "Unauthorized.");
+        if (msg.sender != record.owner) revert Unauthorized();
 
         emit Transfer(node, owner);
 
@@ -49,7 +51,7 @@ contract ENSRegistry {
         bytes32 label,
         address owner
     ) public {
-        require(msg.sender == records[node].owner, "Unauthorized.");
+        if (msg.sender != records[node].owner) revert Unauthorized();
 
         emit NewOwner(node, label, owner);
 
@@ -59,7 +61,7 @@ contract ENSRegistry {
     function setResolver(bytes32 node, address resolver) public {
         Record storage record = records[node];
 
-        require(msg.sender == record.owner, "Unauthorized.");
+        if (msg.sender != record.owner) revert Unauthorized();
 
         emit NewResolver(node, resolver);
 
@@ -69,7 +71,7 @@ contract ENSRegistry {
     function setTTL(bytes32 node, uint64 ttl) public {
         Record storage record = records[node];
 
-        require(msg.sender == record.owner, "Unauthorized.");
+        if (msg.sender != record.owner) revert Unauthorized();
 
         record.ttl = ttl;
     }

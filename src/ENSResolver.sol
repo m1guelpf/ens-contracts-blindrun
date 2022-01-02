@@ -4,6 +4,8 @@ pragma solidity ^0.8.10;
 import "./ENSRegistry.sol";
 
 contract ENSResolver {
+    error Unauthorized();
+
     event AddrChanged(bytes32 indexed node, address a);
 
     address owner;
@@ -24,7 +26,7 @@ contract ENSResolver {
     }
 
     function setAddr(bytes32 node, address addr) public {
-        require(msg.sender == registry.owner(node), "Unauthorized.");
+        if (msg.sender != registry.owner(node)) revert Unauthorized();
 
         emit AddrChanged(node, addr);
 

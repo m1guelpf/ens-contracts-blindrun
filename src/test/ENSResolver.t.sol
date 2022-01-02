@@ -39,7 +39,7 @@ contract ENSResolverTest is DSTest {
         assertEq(resolver.addr(0), address(0));
 
         hevm.prank(address(user));
-        hevm.expectRevert("Unauthorized.");
+        hevm.expectRevert(abi.encodeWithSignature("Unauthorized()"));
         resolver.setAddr(0, address(this));
 
         assertEq(resolver.addr(0), address(0));

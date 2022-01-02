@@ -7,6 +7,8 @@ contract ENSRegistrar {
     bytes32 rootNode;
     ENSRegistry registry;
 
+    error Unauthorized();
+
     constructor(ENSRegistry _registry, bytes32 node) {
         rootNode = node;
         registry = _registry;
@@ -17,10 +19,8 @@ contract ENSRegistrar {
             keccak256(abi.encodePacked(rootNode, subnode))
         );
 
-        require(
-            currentOwner == address(0) || currentOwner == msg.sender,
-            "Unauthorized."
-        );
+        if (currentOwner != address(0) && currentOwner != msg.sender)
+            revert Unauthorized();
 
         registry.setSubnodeOwner(rootNode, subnode, owner);
     }

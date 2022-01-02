@@ -44,7 +44,7 @@ contract ENSRegistrarTest is DSTest {
         assertEq(registry.owner(Namehash.hash("test")), address(this));
 
         hevm.prank(address(user));
-        hevm.expectRevert("Unauthorized.");
+        hevm.expectRevert(abi.encodeWithSignature("Unauthorized()"));
         registrar.register(keccak256("test"), address(user));
 
         assertEq(registry.owner(Namehash.hash("test")), address(this));
