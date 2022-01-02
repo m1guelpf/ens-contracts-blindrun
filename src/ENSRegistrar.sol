@@ -19,7 +19,7 @@ contract ENSRegistrar {
 
         require(
             currentOwner == address(0) || currentOwner == msg.sender,
-            "Unauthorized"
+            "Unauthorized."
         );
 
         registry.setSubnodeOwner(rootNode, subnode, owner);

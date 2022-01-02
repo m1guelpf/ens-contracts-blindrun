@@ -24,7 +24,7 @@ contract ENSResolver {
     }
 
     function setAddr(bytes32 node, address addr) public {
-        require(msg.sender == registry.owner(node), "Unauthorized");
+        require(msg.sender == registry.owner(node), "Unauthorized.");
 
         emit AddrChanged(node, addr);
 
