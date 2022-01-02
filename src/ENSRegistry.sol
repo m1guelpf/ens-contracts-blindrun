@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 
-import "./interfaces/IENS.sol";
+contract ENSRegistry {
+    event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
+    event Transfer(bytes32 indexed node, address owner);
+    event NewResolver(bytes32 indexed node, address resolver);
 
-contract ENSRegistry is IENS {
     struct Record {
         address owner;
         address resolver;
@@ -28,7 +30,7 @@ contract ENSRegistry is IENS {
         return records[node].ttl;
     }
 
-    function recordExists(bytes32 node) external virtual view returns (bool) {
+    function recordExists(bytes32 node) external view virtual returns (bool) {
         return records[node].owner != address(0);
     }
 
@@ -42,7 +44,11 @@ contract ENSRegistry is IENS {
         record.owner = owner;
     }
 
-    function setSubnodeOwner(bytes32 node, bytes32 label, address owner) public {
+    function setSubnodeOwner(
+        bytes32 node,
+        bytes32 label,
+        address owner
+    ) public {
         require(msg.sender == records[node].owner, "Unauthorized.");
 
         emit NewOwner(node, label, owner);

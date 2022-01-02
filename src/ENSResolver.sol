@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 
 import "./ENSRegistry.sol";
 
@@ -15,7 +15,7 @@ contract ENSResolver {
         registry = _registry;
     }
 
-    function supportsInterface(bytes4 interfaceID) public view returns (bool) {
+    function supportsInterface(bytes4 interfaceID) public pure returns (bool) {
         return interfaceID == 0x01ffc9a7 || interfaceID == 0x3b3b57de;
     }
 
